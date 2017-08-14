@@ -1,0 +1,5 @@
+#!/bin/bash
+
+nasm $1 -f macho64 -o temp.o
+ld temp.o -o out
+rm temp.o
