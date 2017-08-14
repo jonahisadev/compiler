@@ -12,6 +12,7 @@ int main(int argc, char** argv) {
 	
 	Parser p(src);
 	p.start();
+	p.printTokenList();
 	
 	return 0;
 }

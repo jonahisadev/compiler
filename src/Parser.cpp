@@ -4,16 +4,19 @@ namespace Compiler {
 
 	Parser::Parser(char* source) {
 		this->source = source;
+		this->tokenList = new List<Token*>(1);
 	}
 	
 	Parser::~Parser() {
 		delete[] this->source;
+		delete this->tokenList;
 	}
 	
 	void Parser::start() {
 		char* lex = new char[256];
 		int lexi = 0;
 		int i = 0;
+		int line = 1;
 		
 		resetLex:
 		lexi = 0;
@@ -36,13 +39,55 @@ namespace Compiler {
 		
 		lex[lexi] = '\0';
 		
+		// Special Characters
 		if (lexi == 0) {
-			// TODO: switch for tokens
-			if (source[i] != '\n' && source[i] != ' ')
-				printf("%c\n", source[i]);
+			switch (source[i]) {
+				case '(': {
+					tokenList->add(new Token(TokenType::SPECIAL, TokenSpecial::LEFT_PAR, line));
+					break;
+				}
+				case ')': {
+					tokenList->add(new Token(TokenType::SPECIAL, TokenSpecial::RIGHT_PAR, line));
+					break;
+				}
+				case '{': {
+					tokenList->add(new Token(TokenType::SPECIAL, TokenSpecial::LEFT_BRACKET, line));
+					break;
+				}
+				case '}': {
+					tokenList->add(new Token(TokenType::SPECIAL, TokenSpecial::RIGHT_BRACKET, line));
+					break;
+				}
+				case ';': {
+					tokenList->add(new Token(TokenType::SPECIAL, TokenSpecial::SEMICOLON, line));
+					break;
+				}
+				default:
+					break;
+			}
+			
 			i++;
-		} else {
-			printf("%s\n", lex);
+			goto end;
+		}
+		
+		// Keywords
+		else if (!strcmp(lex, "return")) {
+			tokenList->add(new Token(TokenType::KEYWORD, TokenKeyword::RETURN, line));
+			goto end;
+		} else if (!strcmp(lex, "int")) {
+			tokenList->add(new Token(TokenType::KEYWORD, TokenKeyword::INT, line));
+			goto end;
+		}
+		
+		// Numbers
+		else if (Util::isNumber(lex)) {
+			tokenList->add(new Token(TokenType::NUMBER, Util::toNumber(lex, 10), line));
+			goto end;
+		}
+		
+		else {
+			tokenList->add(new Token(TokenType::NAME, 0, line));
+			goto end;
 		}
 		
 		end:
@@ -50,7 +95,7 @@ namespace Compiler {
 			i++;
 		} else if (source[i] == '\n') {
 			i++;
-			//line++;
+			line++;
 		} else if (source[i] == '\0') {
 			return;
 		}
@@ -67,6 +112,10 @@ namespace Compiler {
 			return true;
 		}
 		return false;
+	}
+	
+	void Parser::printTokenList() {
+		Token::printList(this->tokenList);
 	}
 
 }

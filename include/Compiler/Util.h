@@ -3,12 +3,15 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 
 namespace Compiler {
 
 	class Util {
 	public:
 		static char* readFile(const char* path);
+		static bool isNumber(char* num);
+		static int toNumber(char* num, int base);
 	};
 
 }

@@ -3,12 +3,18 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
+
+#include <Compiler/List.h>
+#include <Compiler/Token.h>
+#include <Compiler/Util.h>
 
 namespace Compiler {
 
 	class Parser {
 	private:
 		char* source;
+		List<Token*>* tokenList;
 		
 	public:
 		Parser(char* source);
@@ -16,6 +22,7 @@ namespace Compiler {
 		
 		void start();
 		bool important(char c);
+		void printTokenList();
 	};
 
 }
