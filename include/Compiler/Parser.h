@@ -11,10 +11,13 @@
 
 namespace Compiler {
 
+	template class List<char*>;
+
 	class Parser {
 	private:
 		char* source;
 		List<Token*>* tokenList;
+		List<char*>* nameList;
 		
 	public:
 		Parser(char* source);

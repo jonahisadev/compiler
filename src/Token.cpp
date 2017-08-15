@@ -12,10 +12,11 @@ namespace Compiler {
 		// Nothing
 	}
 	
-	void Token::printList(List<Token*>* tokenList) {
+	void Token::printList(List<Token*>* tokenList, List<char*>* nameList) {
 		Token* t;
 		for (int i = 0; i < tokenList->getSize(); i++) {
 			t = tokenList->get(i);
+			printf("%d: ", t->getLine());
 			
 			// Keywords
 			if (t->getType() == TokenType::KEYWORD) {
@@ -54,7 +55,7 @@ namespace Compiler {
 			
 			// Name
 			else if (t->getType() == TokenType::NAME) {
-				printf("NAME:\n");
+				printf("NAME: %s\n", nameList->get(t->getData()));
 			}
 			
 			else {

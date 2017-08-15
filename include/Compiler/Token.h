@@ -49,7 +49,7 @@ namespace Compiler {
 		inline void setType(int type) { this->type = type; }
 		inline void setData(int data) { this->data = data; }
 		
-		static void printList(List<Token*>* tokenList);
+		static void printList(List<Token*>* tokenList, List<char*>* nameList);
 	};
 
 }

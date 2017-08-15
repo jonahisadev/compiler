@@ -5,11 +5,14 @@ namespace Compiler {
 	Parser::Parser(char* source) {
 		this->source = source;
 		this->tokenList = new List<Token*>(1);
+		this->nameList = new List<char*>(1);
 	}
 	
 	Parser::~Parser() {
 		delete[] this->source;
+		
 		delete this->tokenList;
+		delete this->nameList;
 	}
 	
 	void Parser::start() {
@@ -85,8 +88,10 @@ namespace Compiler {
 			goto end;
 		}
 		
+		// Names
 		else {
-			tokenList->add(new Token(TokenType::NAME, 0, line));
+			nameList->add(strdup(lex));
+			tokenList->add(new Token(TokenType::NAME, nameList->getPointer()-1, line));
 			goto end;
 		}
 		
@@ -115,7 +120,7 @@ namespace Compiler {
 	}
 	
 	void Parser::printTokenList() {
-		Token::printList(this->tokenList);
+		Token::printList(this->tokenList, this->nameList);
 	}
 
 }
