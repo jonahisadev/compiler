@@ -8,6 +8,7 @@
 #include <Compiler/List.h>
 #include <Compiler/Token.h>
 #include <Compiler/Util.h>
+#include <Compiler/Compile.h>
 
 namespace Compiler {
 
@@ -26,6 +27,8 @@ namespace Compiler {
 		void start();
 		bool important(char c);
 		void printTokenList();
+		
+		Compile* createCompiler();
 	};
 
 }

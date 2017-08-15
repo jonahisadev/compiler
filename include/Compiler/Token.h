@@ -10,6 +10,7 @@ namespace Compiler {
 
 	enum TokenType {
 		KEYWORD,
+		TYPE,
 		NAME,
 		ID,
 		SPECIAL,

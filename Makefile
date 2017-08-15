@@ -1,6 +1,6 @@
 CC = g++
 LDFLAGS =
-CFLAGS = -I include -g -c -std=c++11
+CFLAGS = -I include -g -c -std=c++11 -w
 SRC = $(wildcard *.cpp src/*.cpp)
 HEAD = $(wildcard include/Compiler/*.h)
 OBJ = $(SRC:.cpp=.o)
@@ -15,4 +15,4 @@ $(EXEC): $(OBJ)
 	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
-	rm -rf *.o src/*.o $(EXEC)
+	rm -rf *.o src/*.o out* $(EXEC)

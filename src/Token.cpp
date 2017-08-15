@@ -19,7 +19,8 @@ namespace Compiler {
 			printf("%d: ", t->getLine());
 			
 			// Keywords
-			if (t->getType() == TokenType::KEYWORD) {
+			if (t->getType() == TokenType::KEYWORD ||
+					t->getType() == TokenType::TYPE) {
 				switch (t->getData()) {
 					case TokenKeyword::INT:
 						printf("INT\n"); break;

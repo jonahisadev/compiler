@@ -78,7 +78,7 @@ namespace Compiler {
 			tokenList->add(new Token(TokenType::KEYWORD, TokenKeyword::RETURN, line));
 			goto end;
 		} else if (!strcmp(lex, "int")) {
-			tokenList->add(new Token(TokenType::KEYWORD, TokenKeyword::INT, line));
+			tokenList->add(new Token(TokenType::TYPE, TokenKeyword::INT, line));
 			goto end;
 		}
 		
@@ -121,6 +121,13 @@ namespace Compiler {
 	
 	void Parser::printTokenList() {
 		Token::printList(this->tokenList, this->nameList);
+	}
+	
+	Compile* Parser::createCompiler() {
+		Compile* c = new Compile();
+		c->setTokenList(this->tokenList);
+		c->setNameList(this->nameList);
+		return c;
 	}
 
 }
