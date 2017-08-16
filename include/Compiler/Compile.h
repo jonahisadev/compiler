@@ -12,7 +12,7 @@
 	C_BUILD_MAC: Build the compiler for 64-bit Mac assembly output
 	C_BUILD_LINUX: Build the compiler for 32-bit Linux assembly output
 */
-#define C_BUILD_MAC
+#define C_BUILD_LINUX
 
 namespace Compiler {
 
@@ -36,7 +36,7 @@ namespace Compiler {
 		void retLiteral(int num);
 		
 	private:
-		#ifdef C_BUILD_MAC
+		#if defined(C_BUILD_MAC)
 			static constexpr char* const ASM_TEMPLATE = "global start\n\n"
 				"section .data\n"
 				"db 0x00\n\n"
@@ -46,13 +46,13 @@ namespace Compiler {
 				"\tmov rdi, rdx\n"
 				"\tmov rax, 0x2000001\n"
 				"\tsyscall\n\n";
-		#elif C_BUILD_LINUX
-			static constexpr char* const ASM_TEMPLATE = "global start\n\n"
+		#elif defined(C_BUILD_LINUX)
+			static constexpr char* const ASM_TEMPLATE = "global _start\n\n"
 				"section .text\n"
-				"start:\n"
+				"_start:\n"
 				"\tcall main\n"
-				"\tmov rbx, rdx\n"
-				"\tmov rax, 1\n"
+				"\tmov ebx, edx\n"
+				"\tmov eax, 1\n"
 				"\tint 0x80\n\n";
 		#endif
 	};

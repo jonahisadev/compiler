@@ -42,7 +42,11 @@ namespace Compiler {
 	}
 	
 	void Compile::retLiteral(int num) {
-		fprintf(this->out, "\tmov rdx, %d\n", num);
+	    #if defined(C_BUILD_MAC)
+		    fprintf(this->out, "\tmov rdx, %d\n", num);
+		#elif defined(C_BUILD_LINUX)
+		    fprintf(this->out, "\tmov edx, %d\n", num);
+		#endif
 		fprintf(this->out, "%s", "\tret\n\n");
 	}
 	
