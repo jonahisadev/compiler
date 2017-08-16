@@ -22,8 +22,13 @@ int main(int argc, char** argv) {
 	delete c;
 	
 	// Run builds
-	system("nasm out.s -f macho64 -o temp.o");
-	system("ld temp.o -o out");
+	#ifdef C_BUILD_MAC
+		system("nasm out.s -f macho64 -o temp.o");
+		system("ld temp.o -o out");
+	#elif C_BUILD_LINUX
+		system("nasm out.s -f elf -o temp.o");
+		system("ld temp.o -m elf_i386 -o out");
+	#endif
 	system("rm temp.o");
 	
 	return 0;
