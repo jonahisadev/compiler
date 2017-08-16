@@ -11,10 +11,12 @@ using namespace Compiler;
 int main(int argc, char** argv) {
 	char* src = strdup(Util::readFile("tests/ret_num.c"));
 	
+	// Begin parsing
 	Parser p(src);
 	p.start();
 	p.printTokenList();
 	
+	// Begin compilation
 	Compile* c = p.createCompiler();
 	c->start();
 	delete c;

@@ -24,19 +24,26 @@ namespace Compiler {
 					tok[i+2]->getType() == TokenType::SPECIAL && tok[i+2]->getData() == TokenSpecial::LEFT_PAR &&
 					tok[i+3]->getType() == TokenType::SPECIAL && tok[i+3]->getData() == TokenSpecial::RIGHT_PAR) {
 				char* name = strdup(nameList->get(tok[i+1]->getData()));
-				fprintf(this->out, "%s:\n", name);
-				//i += 3;
+				writeLabel(name);
 			}
 			
 			// Return a number
 			else if (t->getType() == TokenType::KEYWORD && t->getData() == TokenKeyword::RETURN &&
 					tok[i+1]->getType() == TokenType::NUMBER &&
 					tok[i+2]->getType() == TokenType::SPECIAL && tok[i+2]->getData() == TokenSpecial::SEMICOLON) {
-				fprintf(this->out, "\tmov rdx, %d\n", tok[i+1]->getData());
-				fprintf(this->out, "%s", "\tret\n\n");
+				retLiteral(tok[i+1]->getData());
 				//i += 2;
 			}
 		}
+	}
+	
+	void Compile::writeLabel(char* label) {
+		fprintf(this->out, "%s:\n", label);
+	}
+	
+	void Compile::retLiteral(int num) {
+		fprintf(this->out, "\tmov rdx, %d\n", num);
+		fprintf(this->out, "%s", "\tret\n\n");
 	}
 	
 	void Compile::setTokenList(List<Token*>* tokenList) {
