@@ -1,16 +1,15 @@
-global start
+global _start
 
 section .text
-start:
-	call main
-	mov rdi, rdx
-	mov rax, 0x2000001
-	syscall
-	
+_start:
+    call main
+    mov ebx, edx
+    mov eax, 1
+    int 0x80
+    
+main:
+    mov edx, 2
+    ret
+    
 section .data
-db 0x0
-	
-section .text
-main:						; User Code
-	mov rdx, 2
-	ret
+x: dd 0

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+nasm $1 -f elf -o temp.o
+ld temp.o -m elf_i386 -o out
+rm temp.o
