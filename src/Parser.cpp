@@ -65,6 +65,10 @@ namespace Compiler {
 					tokenList->add(new Token(TokenType::SPECIAL, TokenSpecial::SEMICOLON, line));
 					break;
 				}
+				case '=': {
+					tokenList->add(new Token(TokenType::SPECIAL, TokenSpecial::EQUALS, line));
+					break;
+				}
 				default:
 					break;
 			}
@@ -113,7 +117,8 @@ namespace Compiler {
 				c == '}' ||
 				c == '(' ||
 				c == ')' ||
-				c == ';') {
+				c == ';' ||
+				c == '=') {
 			return true;
 		}
 		return false;

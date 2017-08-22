@@ -27,7 +27,8 @@ namespace Compiler {
 		RIGHT_PAR,
 		LEFT_BRACKET,
 		RIGHT_BRACKET,
-		SEMICOLON
+		SEMICOLON,
+		EQUALS
 	};
 
 	class Token;

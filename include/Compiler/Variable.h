@@ -11,7 +11,7 @@ namespace Compiler {
         WORD,
         DOUBLE,
         STRING
-    }
+    };
 
 	class Variable {
 	private:

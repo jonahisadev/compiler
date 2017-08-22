@@ -7,6 +7,7 @@
 
 #include <Compiler/List.h>
 #include <Compiler/Token.h>
+#include <Compiler/Variable.h>
 
 /*
 	C_BUILD_MAC: Build the compiler for 64-bit Mac assembly output
@@ -21,6 +22,8 @@ namespace Compiler {
 		List<Token*>* tokenList;
 		List<char*>* nameList;
 		
+		List<Variable*>* varList;
+		
 		FILE* out;
 		
 	public:
@@ -28,6 +31,7 @@ namespace Compiler {
 		~Compile();
 		
 		void start();
+		void writeVariables();
 		
 		void setTokenList(List<Token*>* tokenList);
 		void setNameList(List<char*>* nameList);

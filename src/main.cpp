@@ -9,7 +9,7 @@
 using namespace Compiler;
 
 int main(int argc, char** argv) {
-	char* src = strdup(Util::readFile("tests/ret_num.c"));
+	char* src = strdup(Util::readFile("tests/var.c"));
 	
 	// Begin parsing
 	Parser p(src);

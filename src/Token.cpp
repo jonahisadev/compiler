@@ -44,6 +44,8 @@ namespace Compiler {
 						printf("}\n"); break;
 					case TokenSpecial::SEMICOLON:
 						printf(";\n"); break;
+					case TokenSpecial::EQUALS:
+					    printf("=\n"); break;
 					default:
 						break;
 				}

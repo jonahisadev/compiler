@@ -3,6 +3,8 @@
 namespace Compiler {
 
 	Compile::Compile() {
+	    this->varList = new List<Variable*>(1);
+	    
 		this->out = fopen("out.s", "w");
 		fprintf(this->out, "%s", ASM_TEMPLATE);
 	}
@@ -34,7 +36,57 @@ namespace Compiler {
 				retLiteral(tok[i+1]->getData());
 				//i += 2;
 			}
+			
+			// Declare a variable
+			else if (t->getType() == TokenType::TYPE && t->getData() == TokenKeyword::INT &&
+			        tok[i+1]->getType() == TokenType::NAME &&
+			        tok[i+2]->getType() == TokenType::SPECIAL && tok[i+2]->getData() == TokenSpecial::SEMICOLON) {
+			    char* name = strdup(nameList->get(tok[i+1]->getData()));
+			    this->varList->add(new Variable(name, 0, VariableSize::DOUBLE));
+			}
+			
+			// Declare and define a variable
+			// int name = num;
+			else if (t->getType() == TokenType::TYPE && t->getData() == TokenKeyword::INT &&
+			        tok[i+1]->getType() == TokenType::NAME &&
+			        tok[i+2]->getType() == TokenType::SPECIAL && tok[i+2]->getData() == TokenSpecial::EQUALS &&
+			        tok[i+3]->getType() == TokenType::NUMBER &&
+			        tok[i+4]->getType() == TokenType::SPECIAL && tok[i+4]->getData() == TokenSpecial::SEMICOLON) {
+			    char* name = strdup(nameList->get(tok[i+1]->getData()));
+			    int num = tok[i+3]->getData();
+			    this->varList->add(new Variable(name, num, VariableSize::DOUBLE));
+		    }
 		}
+		
+		// Write out variables
+		writeVariables();
+	}
+	
+	void Compile::writeVariables() {
+	    if (varList->getSize() == 0)
+	        return;
+	    
+	    fprintf(this->out, "%s", "section .data\n");
+	    
+	    Variable* v;
+	    for (int i = 0; i < varList->getSize(); i++) {
+	        v = varList->get(i);
+	        switch (v->getSize()) {
+	            case VariableSize::DOUBLE: {
+	                fprintf(this->out, "%s: dd %d", v->getName(), v->getData());
+	                break;
+	            }
+	            case VariableSize::WORD: {
+	                fprintf(this->out, "%s: dw %d", v->getName(), v->getData());
+	                break;
+	            }
+	            case VariableSize::BYTE: {
+	                fprintf(this->out, "%s: db %d", v->getName(), v->getData());
+	                break;
+	            }
+	        }
+	        fprintf(this->out, "%s", "\n");
+	    }
 	}
 	
 	void Compile::writeLabel(char* label) {
