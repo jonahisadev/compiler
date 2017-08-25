@@ -11,5 +11,31 @@ namespace Compiler {
     Variable::~Variable() {
         delete name;
     }
+    
+    int Variable::variableExists(List<Variable*>* list, char* name) {
+        for (int i = 0; i < list->getSize(); i++) {
+            if (!strcmp(name, list->get(i)->getName())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    const char* Variable::getSizeASM() {
+        switch (getSize()) {
+            case VariableSize::BYTE: {
+                return "byte";
+            }
+            case VariableSize::WORD: {
+                return "word";
+            }
+            case VariableSize::DOUBLE: {
+                return "dword";
+            }
+            default: {
+                return "";
+            }
+        }
+    }
 
 }

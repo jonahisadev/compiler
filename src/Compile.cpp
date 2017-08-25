@@ -46,7 +46,6 @@ namespace Compiler {
 			}
 			
 			// Declare and define a variable
-			// int name = num;
 			else if (t->getType() == TokenType::TYPE && t->getData() == TokenKeyword::INT &&
 			        tok[i+1]->getType() == TokenType::NAME &&
 			        tok[i+2]->getType() == TokenType::SPECIAL && tok[i+2]->getData() == TokenSpecial::EQUALS &&
@@ -55,6 +54,18 @@ namespace Compiler {
 			    char* name = strdup(nameList->get(tok[i+1]->getData()));
 			    int num = tok[i+3]->getData();
 			    this->varList->add(new Variable(name, num, VariableSize::DOUBLE));
+		    }
+		    
+		    // Return a variable
+		    else if (t->getType() == TokenType::KEYWORD && t->getData() == TokenKeyword::RETURN &&
+					tok[i+1]->getType() == TokenType::NAME &&
+					tok[i+2]->getType() == TokenType::SPECIAL && tok[i+2]->getData() == TokenSpecial::SEMICOLON) {
+    			int vIndex = Variable::variableExists(this->varList, nameList->get(tok[i+1]->getData()));
+    			if (vIndex != -1) {
+    			    retVariable(varList->get(vIndex));
+    			} else {
+    			    serror(SymError::S_MISSING_VAR, tok[i+1]);
+    			}
 		    }
 		}
 		
@@ -89,6 +100,20 @@ namespace Compiler {
 	    }
 	}
 	
+	void Compile::serror(int err, Token* t) {
+	    switch (err) {
+	        case S_MISSING_VAR: {
+	            printf("%d: Variable '%s' does not exist\n", t->getLine(), nameList->get(t->getData()));
+	            break;
+	        }
+	        default: {
+	            printf("There was an error\n");
+	            break;
+	        }
+	    }
+	    exit(1);
+	}
+	
 	void Compile::writeLabel(char* label) {
 		fprintf(this->out, "%s:\n", label);
 	}
@@ -100,6 +125,15 @@ namespace Compiler {
 		    fprintf(this->out, "\tmov edx, %d\n", num);
 		#endif
 		fprintf(this->out, "%s", "\tret\n\n");
+	}
+	
+	void Compile::retVariable(Variable* v) {
+	    #if defined(C_BUILD_MAC)
+	        fprintf(this->out, "%s", "\n\n");       // NOT IMPLEMENTED
+	    #elif defined(C_BUILD_LINUX)
+	        fprintf(this->out, "\tmov edx, %s [%s]\n", v->getSizeASM(), v->getName());
+	    #endif
+	    fprintf(this->out, "%s", "\tret\n\n");
 	}
 	
 	void Compile::setTokenList(List<Token*>* tokenList) {

@@ -14,7 +14,8 @@ namespace Compiler {
 		NAME,
 		ID,
 		SPECIAL,
-		NUMBER
+		NUMBER,
+		VARIABLE
 	};
 	
 	enum TokenKeyword {

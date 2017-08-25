@@ -9,6 +9,7 @@
 #include <Compiler/Token.h>
 #include <Compiler/Util.h>
 #include <Compiler/Compile.h>
+#include <Compiler/Variable.h>
 
 namespace Compiler {
 

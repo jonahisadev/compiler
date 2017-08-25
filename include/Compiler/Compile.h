@@ -17,6 +17,10 @@
 
 namespace Compiler {
 
+    enum SymError {
+        S_MISSING_VAR,
+    };
+
 	class Compile {
 	private:
 		List<Token*>* tokenList;
@@ -32,12 +36,14 @@ namespace Compiler {
 		
 		void start();
 		void writeVariables();
+		void serror(int err, Token* t);
 		
 		void setTokenList(List<Token*>* tokenList);
 		void setNameList(List<char*>* nameList);
 		
 		void writeLabel(char* label);
 		void retLiteral(int num);
+		void retVariable(Variable* v);
 		
 	private:
 		#if defined(C_BUILD_MAC)

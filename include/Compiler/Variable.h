@@ -4,6 +4,8 @@
 #include <cstdlib>
 #include <cstring>
 
+#include <Compiler/List.h>
+
 namespace Compiler {
 
     enum VariableSize {
@@ -23,9 +25,13 @@ namespace Compiler {
 	    Variable(char* name, int data, int size);
 	    ~Variable();
 	    
+	    static int variableExists(List<Variable*>* list, char* name);
+	    
 	    inline char* getName() const { return name; }
 	    inline int getData() const { return data; }
 	    inline int getSize() const { return size; }
+	    
+	    const char* getSizeASM();
 	};
 
 }

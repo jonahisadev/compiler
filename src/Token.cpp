@@ -56,6 +56,11 @@ namespace Compiler {
 				printf("NUM: %d\n", t->getData());
 			}
 			
+			// Variable
+			else if (t->getType() == TokenType::VARIABLE) {
+			    printf("VAR\n");
+			}
+			
 			// Name
 			else if (t->getType() == TokenType::NAME) {
 				printf("NAME: %s\n", nameList->get(t->getData()));

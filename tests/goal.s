@@ -8,8 +8,9 @@ _start:
     int 0x80
     
 main:
-    mov edx, 2
+    mov edx, dword [y]
     ret
     
 section .data
 x: dd 0
+y: dd 36
